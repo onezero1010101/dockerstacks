@@ -1,0 +1,76 @@
+version: '2'
+#Default NZBGet nzbget/tegbzn6789
+services:
+  sonarr:
+    image: linuxserver/sonarr
+    container_name: sonarr
+    ports:
+      - 8989:8989
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "America/Indiana/Indianapolis"
+    volumes:
+      - /opt/sonarr:/config
+      - /etc/localtime:/etc/localtime:ro 
+      - /mnt/tank/video:/tv 
+      - /mnt/tank/download:/downloads
+    tty: true
+    restart: always
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    ports:
+      - 7878:7878
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "America/Indiana/Indianapolis"
+    volumes:
+      - /opt/radarr:/config
+      - /etc/localtime:/etc/localtime:ro 
+      - /mnt/tank/video/:/movies 
+      - /mnt/tank/download:/downloads 
+    tty: true
+    restart: always
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    ports:
+      - 9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "America/Indiana/Indianapolis"
+    volumes:
+      - /opt/transmission_config:/config
+      - /etc/localtime:/etc/localtime:ro
+      - /mnt/tank/download:/downloads
+    restart: always
+  nzbget:
+    image: linuxserver/nzbget
+    container_name: nzbget
+    ports:
+      - 6789:6789
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "America/Indiana/Indianapolis"
+    volumes:
+      - /opt/nzbget_config:/config
+      - /mnt/tank/download:/downloads
+    restart: always
+  organizr:
+    image: linuxserver/organizr
+    container_name: organizr
+    ports:
+      - 80:80
+    environment:
+      PUID: "1000"
+      PGID: "1000"
+      TZ: "America/Indiana/Indianapolis"
+    volumes:
+      - /opt/organizr:/config
+    restart: always    
