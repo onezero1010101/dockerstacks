@@ -1,0 +1,10 @@
+version: "2"
+services:
+  dokuwiki:
+    image: crazymax/dokuwiki
+    container_name: dokuwiki
+    volumes:
+      - /opt/dokuwiki:/data
+    ports:
+      - 80:8000
+    restart: unless-stopped
